@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+  app1:
+    # build: api
+    # ports:
+    #   - 3011:3011
+    image: nodeapp
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3011
+      MONGO_URI: mongodb://mongo:27017/school
+    expose:
+      - "3011"
+    networks:
+      - app
+  app2:
+    image: nodeapp
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3012
+      MONGO_URI: mongodb://mongo:27017/school
+    expose:
+      - "3012"
+    networks:
+      - app
+  app3:
+    image: nodeapp
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3013
+      MONGO_URI: mongodb://mongo:27017/school
+    expose:
+      - "3013"
+    networks:
+      - app
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo:/data/db
+    networks:
+      - app
+    restart: always
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge
+volumes:
+  mongo:
