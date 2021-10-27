@@ -4,7 +4,7 @@ const moment = require('moment')
 
 const bodyParser = require('body-parser');
 const app = express()
-const port = process.env.PORT || 5001
+const port = process.env.PORT || 3000
 const { Student } = require('./mongo')
 
 // fix unable to post data

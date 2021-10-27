@@ -9,7 +9,9 @@ services:
       - mongo
     environment:
       PORT: 3011
-      MONGO_URI: mongodb://mongo:27017/school
+      DB_USERNAME: mongouser
+      DB_PASSWORD: mongopassword
+      DB_URL: mongo:27017/school
     expose:
       - "3011"
     networks:
@@ -20,7 +22,9 @@ services:
       - mongo
     environment:
       PORT: 3012
-      MONGO_URI: mongodb://mongo:27017/school
+      DB_USERNAME: mongouser
+      DB_PASSWORD: mongopassword
+      DB_URL: mongo:27017/school
     expose:
       - "3012"
     networks:
@@ -31,18 +35,24 @@ services:
       - mongo
     environment:
       PORT: 3013
-      MONGO_URI: mongodb://mongo:27017/school
+      DB_USERNAME: mongouser
+      DB_PASSWORD: mongopassword
+      DB_URL: mongo:27017/school
     expose:
       - "3013"
     networks:
       - app
   mongo:
     image: mongo:latest
+    restart: always
     volumes:
       - mongo:/data/db
+      - ./app/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - app
-    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
   nginx:
     image: nginx:alpine
     ports:

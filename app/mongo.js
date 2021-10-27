@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URI || "mongodb://mongo:27017/school", { useNewUrlParser: true, useUnifiedTopology: true })
+const mongoUrl = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}`
+
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const Student = mongoose.model('students', {
   name: String,
@@ -10,3 +12,6 @@ const Student = mongoose.model('students', {
 module.exports = {
   Student
 };
+
+// if you want to connect without auth simply change the mongoUrl to
+// "mongodb://mongo:27017/school"
